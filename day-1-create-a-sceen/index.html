@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Threejs Day 1</title>
+</head>
+<body>
+    <p style="display: none;">
+        # Use a PerspectiveCamera to create few diffrent camera
+
+        first attr is `field of view`
+        -> fov is the extent of the scene that is seen on the display at any given moment ( value is degree )
+
+        second is   `aspect ratio`
+        -> almost always want to use the width of the element divided by the height ~ or get same result like watch old movie on a widescreen tv
+        SQUISHED
+
+        thirth and fourth are the near and far clipping plane
+        -> ~ for better performance
+
+        # Renderer - where magic happen
+         - when create a Renderer instance, we need to set the size at which we want it to render our app
+         use the width and height if the area we want to fill with our app, and in this case is the width and the height of browser window
+            + For performance intensive apps, you can give setSize smaller value => window.innerWidth/2 and window.innerHeight/2 make the app render at half size
+         - if you want to keep the your app's size but render with lower resolution, you can do by calling setSize with "false" as `updateStyle` - the third argument ( setSize(window.innerWidth/2, window.innerHeight/2, false) ) will render the app with half resolution, given your canvas 100% width and height
+    </p>
+
+    <p style="display: none;">
+        # Creating a Cube
+         - we need a material to color it and THREEjs comes with several materials. But we stick to the `MeshBasicMaterial` for now. All materials take an object of properties which will be applied to them
+         - We only supply a color attribute of "0x00ff00" ( green ) this work same way like CSS or hexcolor
+         - Third thing needed is Mesh. A mesh is an object that takes a geometry and applies material to it, which we then can insert to scene and move freely around
+         - By default we call scene.add().
+    </p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.min.js" integrity="sha512-kgjZw3xjgSUDy9lTU085y+UCVPz3lhxAtdOVkcO4O2dKl2VSBcNsQ9uMg/sXIM4SoOmCiYfyFO/n1/3GSXZtSg==" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        var geometry = new THREE.BoxGeometry();
+        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 });
+        var cube = new THREE.Mesh( geometry, material );
+        scene.add( cube );
+        camera.position.z = 5;
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild( renderer.domElement );
+    </script>
+    </body>
+</html>

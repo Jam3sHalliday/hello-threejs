@@ -34,9 +34,31 @@
          - By default we call scene.add().
     </p>
 
+    <p style="display: none;">
+        # Rendering the scene
+         - We need to add render or animate loop
+            ```
+                function animate() {
+                    requestAnimationFrame( animate );
+                    renderer.render( scene, animate );
+                };
+
+                animate();
+            ```
+         - This function create a loop that causes the renderer to draw the scene every time the screen is refreshed ( ~ 60fps )
+         - "Why don't we just create a setInterval?" - we could, but `requestAnimationFrame` has a number of advantages. May be the most important one is that it pauses when user navigates to another tab, hence not wasting their percious processing power and battery life
+    </p>
+
+    <p style="display: none;">
+        # Animating the cube
+         - cube.rotation.x += Number
+         - cube.rotation.y += Number
+         -> this will be run every frame (normally 60 times per sec )
+    </p>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r120/three.min.js" integrity="sha512-kgjZw3xjgSUDy9lTU085y+UCVPz3lhxAtdOVkcO4O2dKl2VSBcNsQ9uMg/sXIM4SoOmCiYfyFO/n1/3GSXZtSg==" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -49,6 +71,33 @@
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild( renderer.domElement );
+    </script> -->
+
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+        var geometry = new THREE.BoxGeometry();
+        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        var cube = new THREE.Mesh( geometry, material );
+        scene.add( cube );
+
+        camera.position.z = 5;
+
+        var animate = function () {
+            requestAnimationFrame( animate );
+
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+
+            renderer.render( scene, camera );
+        };
+
+        animate();
     </script>
     </body>
 </html>
